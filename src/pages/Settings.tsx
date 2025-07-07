@@ -1,13 +1,15 @@
 
 import { motion } from 'framer-motion';
-import { ArrowLeft, Bell, Shield, Palette, Globe, Database, Key } from 'lucide-react';
+import { ArrowLeft, Bell, Shield, Palette, Globe, Database, Key, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Settings = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -27,6 +29,21 @@ const Settings = () => {
 
   const settingSections = [
     {
+      title: 'Appearance',
+      icon: Palette,
+      settings: [
+        { 
+          id: 'dark-mode', 
+          label: 'Dark Mode', 
+          description: 'Use dark theme',
+          isTheme: true,
+          checked: theme === 'dark'
+        },
+        { id: 'compact-view', label: 'Compact View', description: 'Show more content in less space' },
+        { id: 'animations', label: 'Animations', description: 'Enable interface animations' }
+      ]
+    },
+    {
       title: 'Notifications',
       icon: Bell,
       settings: [
@@ -45,15 +62,6 @@ const Settings = () => {
       ]
     },
     {
-      title: 'Appearance',
-      icon: Palette,
-      settings: [
-        { id: 'dark-mode', label: 'Dark Mode', description: 'Use dark theme' },
-        { id: 'compact-view', label: 'Compact View', description: 'Show more content in less space' },
-        { id: 'animations', label: 'Animations', description: 'Enable interface animations' }
-      ]
-    },
-    {
       title: 'General',
       icon: Globe,
       settings: [
@@ -64,8 +72,15 @@ const Settings = () => {
     }
   ];
 
+  const handleSwitchChange = (settingId: string, isTheme: boolean) => {
+    if (isTheme) {
+      toggleTheme();
+    }
+    // Handle other settings here
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-gray-800 dark:to-black relative overflow-hidden">
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10"></div>
       </div>
@@ -111,12 +126,18 @@ const Settings = () => {
                   {section.settings.map((setting, index) => (
                     <div key={setting.id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
                       <div className="flex-1">
-                        <Label htmlFor={setting.id} className="text-white font-medium cursor-pointer">
+                        <Label htmlFor={setting.id} className="text-white font-medium cursor-pointer flex items-center gap-2">
+                          {setting.isTheme && (theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />)}
                           {setting.label}
                         </Label>
                         <p className="text-white/60 text-sm mt-1">{setting.description}</p>
                       </div>
-                      <Switch id={setting.id} className="data-[state=checked]:bg-purple-600" />
+                      <Switch 
+                        id={setting.id} 
+                        className="data-[state=checked]:bg-purple-600"
+                        checked={setting.checked}
+                        onCheckedChange={() => handleSwitchChange(setting.id, setting.isTheme || false)}
+                      />
                     </div>
                   ))}
                 </div>

@@ -15,6 +15,9 @@ import Analytics from "./pages/Analytics";
 import TeamManagement from "./pages/TeamManagement";
 import Premium from "./pages/Premium";
 import Platform from "./pages/Platform";
+import PostNow from "./pages/PostNow";
+import BulkSchedule from "./pages/BulkSchedule";
+import Templates from "./pages/Templates";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +40,9 @@ const App = () => (
               <Route path="/team" element={<TeamManagement />} />
               <Route path="/premium" element={<Premium />} />
               <Route path="/platform/:platform" element={<Platform />} />
+              <Route path="/post-now" element={<PostNow />} />
+              <Route path="/bulk-schedule" element={<BulkSchedule />} />
+              <Route path="/templates" element={<Templates />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

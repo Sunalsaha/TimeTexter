@@ -1,18 +1,16 @@
 
 import { motion } from 'framer-motion';
-import { Facebook, Mail, MessageCircle, Settings, LogOut, User, Instagram, Linkedin, MessageSquare, Send, Crown, Zap, Moon, Sun, BarChart3, Users } from 'lucide-react';
+import { Facebook, Mail, MessageCircle, Settings, LogOut, User, Instagram, Linkedin, MessageSquare, Send, Crown, Zap, BarChart3, Users, Calendar, FileText, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import { toast } from '@/hooks/use-toast';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
@@ -107,18 +105,14 @@ const Dashboard = () => {
 
   const handleQuickAction = (actionType: string) => {
     switch (actionType) {
-      case 'schedule':
-        navigate('/platform/telegram');
-        toast({
-          title: "Schedule Post",
-          description: "Redirecting to Telegram platform to schedule a post.",
-        });
+      case 'post-now':
+        navigate('/post-now');
         break;
-      case 'analytics':
-        navigate('/analytics');
+      case 'bulk-schedule':
+        navigate('/bulk-schedule');
         break;
-      case 'team':
-        navigate('/team');
+      case 'templates':
+        navigate('/templates');
         break;
     }
   };
@@ -174,21 +168,6 @@ const Dashboard = () => {
           </div>
           
           <div className="flex items-center gap-2 md:gap-4">
-            {/* Theme Toggle */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleTheme}
-                className="text-white/80 hover:text-white hover:bg-white/10"
-              >
-                {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
-            </motion.div>
-
             {/* Premium Button */}
             <motion.div
               animate={{ 
@@ -350,9 +329,9 @@ const Dashboard = () => {
           <h2 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {[
-              { title: 'Schedule Post', description: 'Plan your content across platforms', action: 'schedule', icon: MessageSquare },
-              { title: 'Analytics', description: 'View your performance metrics', action: 'analytics', icon: BarChart3 },
-              { title: 'Team Management', description: 'Manage your team access', action: 'team', icon: Users }
+              { title: 'Post Now', description: 'Create and publish content instantly', action: 'post-now', icon: Calendar },
+              { title: 'Bulk Schedule', description: 'Schedule multiple posts at once', action: 'bulk-schedule', icon: Layers },
+              { title: 'Content Templates', description: 'Use pre-made content templates', action: 'templates', icon: FileText }
             ].map((action, index) => {
               const IconComponent = action.icon;
               return (
@@ -371,7 +350,7 @@ const Dashboard = () => {
                     variant="ghost"
                     className="text-purple-300 hover:text-white hover:bg-purple-600/20"
                   >
-                    {action.title === 'Schedule Post' ? 'Create' : action.title === 'Analytics' ? 'View' : 'Manage'}
+                    {action.title === 'Post Now' ? 'Create' : action.title === 'Bulk Schedule' ? 'Schedule' : 'Browse'}
                   </Button>
                 </motion.div>
               );
