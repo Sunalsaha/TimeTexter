@@ -196,10 +196,9 @@ export const SchedulingTab = ({ platform, config }: SchedulingTabProps) => {
               key={post.id}
               className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300"
               whileHover={{ y: -2 }}
-              transition={{ type: "spring", stiffness: 300 }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1, type: "spring", stiffness: 300 }}
             >
               <div className="flex justify-between items-start mb-4">
                 <p className="text-white flex-1 mr-4">{post.content}</p>
