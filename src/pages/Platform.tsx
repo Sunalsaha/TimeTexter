@@ -54,14 +54,34 @@ const Platform = () => {
       bgColor: 'bg-blue-600/20'
     },
     twitter: {
-      name: 'Twitter',
-      color: 'from-sky-500 to-sky-600',
-      bgColor: 'bg-sky-500/20'
+      name: 'X (Twitter)',
+      color: 'from-gray-800 to-black',
+      bgColor: 'bg-gray-800/20'
     },
     whatsapp: {
       name: 'WhatsApp',
       color: 'from-green-600 to-green-700',
       bgColor: 'bg-green-600/20'
+    },
+    instagram: {
+      name: 'Instagram',
+      color: 'from-pink-500 to-purple-600',
+      bgColor: 'bg-pink-500/20'
+    },
+    linkedin: {
+      name: 'LinkedIn',
+      color: 'from-blue-500 to-blue-600',
+      bgColor: 'bg-blue-500/20'
+    },
+    telegram: {
+      name: 'Telegram',
+      color: 'from-blue-400 to-blue-500',
+      bgColor: 'bg-blue-400/20'
+    },
+    phone: {
+      name: 'Phone Message',
+      color: 'from-green-500 to-green-600',
+      bgColor: 'bg-green-500/20'
     },
     email: {
       name: 'Email',

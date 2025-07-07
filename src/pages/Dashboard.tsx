@@ -1,7 +1,9 @@
+
 import { motion } from 'framer-motion';
-import { Facebook, Mail, MessageCircle, Settings, LogOut, User, Instagram, Linkedin, Youtube, MessageSquare } from 'lucide-react';
+import { Facebook, Mail, MessageCircle, Settings, LogOut, User, Instagram, Linkedin, MessageSquare, Send, Crown, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
@@ -25,7 +27,8 @@ const Dashboard = () => {
       icon: Facebook,
       color: 'from-blue-600 to-blue-700',
       hoverColor: 'hover:from-blue-700 hover:to-blue-800',
-      route: '/platform/facebook'
+      route: '/platform/facebook',
+      available: true
     },
     {
       name: 'X',
@@ -36,51 +39,69 @@ const Dashboard = () => {
       ),
       color: 'from-gray-800 to-black',
       hoverColor: 'hover:from-gray-900 hover:to-gray-800',
-      route: '/platform/twitter'
+      route: '/platform/twitter',
+      available: false
     },
     {
       name: 'WhatsApp',
       icon: MessageCircle,
       color: 'from-green-600 to-green-700',
       hoverColor: 'hover:from-green-700 hover:to-green-800',
-      route: '/platform/whatsapp'
+      route: '/platform/whatsapp',
+      available: true
     },
     {
       name: 'Instagram',
       icon: Instagram,
       color: 'from-pink-500 to-purple-600',
       hoverColor: 'hover:from-pink-600 hover:to-purple-700',
-      route: '/platform/instagram'
+      route: '/platform/instagram',
+      available: false
     },
     {
       name: 'LinkedIn',
       icon: Linkedin,
       color: 'from-blue-500 to-blue-600',
       hoverColor: 'hover:from-blue-600 hover:to-blue-700',
-      route: '/platform/linkedin'
+      route: '/platform/linkedin',
+      available: false
     },
     {
-      name: 'YouTube',
-      icon: Youtube,
-      color: 'from-red-600 to-red-700',
-      hoverColor: 'hover:from-red-700 hover:to-red-800',
-      route: '/platform/youtube'
+      name: 'Telegram',
+      icon: Send,
+      color: 'from-blue-400 to-blue-500',
+      hoverColor: 'hover:from-blue-500 hover:to-blue-600',
+      route: '/platform/telegram',
+      available: true
     },
     {
-      name: 'Messenger',
+      name: 'Phone Message',
       icon: MessageSquare,
-      color: 'from-blue-500 to-purple-600',
-      hoverColor: 'hover:from-blue-600 hover:to-purple-700',
-      route: '/platform/messenger'
+      color: 'from-green-500 to-green-600',
+      hoverColor: 'hover:from-green-600 hover:to-green-700',
+      route: '/platform/phone',
+      available: true
     },
     {
       name: 'Email',
       icon: Mail,
       color: 'from-purple-600 to-purple-700',
       hoverColor: 'hover:from-purple-700 hover:to-purple-800',
-      route: '/platform/email'
+      route: '/platform/email',
+      available: true
     }
   ];
+
+  const handlePlatformClick = (platform: any) => {
+    if (platform.available) {
+      navigate(platform.route);
+    } else {
+      toast({
+        title: "Coming Soon",
+        description: `${platform.name} integration is coming soon!`,
+      });
+    }
+  };
 
   const handleQuickAction = (actionType: string) => {
     switch (actionType) {
@@ -93,14 +114,14 @@ const Dashboard = () => {
         break;
       case 'analytics':
         toast({
-          title: "Analytics",
-          description: "Analytics feature coming soon!",
+          title: "Analytics Dashboard",
+          description: "Opening analytics overview...",
         });
         break;
       case 'team':
         toast({
           title: "Team Management",
-          description: "Team management feature coming soon!",
+          description: "Opening team management panel...",
         });
         break;
     }
@@ -148,26 +169,78 @@ const Dashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
+            {/* Premium Button */}
+            <motion.div
+              animate={{ 
+                boxShadow: [
+                  "0 0 20px rgba(255, 215, 0, 0.3)",
+                  "0 0 40px rgba(255, 215, 0, 0.5)",
+                  "0 0 20px rgba(255, 215, 0, 0.3)"
+                ]
+              }}
+              transition={{ 
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="rounded-full"
+            >
+              <Button
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-6 py-3 rounded-full shadow-xl border-2 border-yellow-300"
+                onClick={() => toast({ title: "Premium", description: "Premium features coming soon!" })}
+              >
+                <Crown className="w-5 h-5 mr-2 animate-pulse" />
+                <motion.span
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
+                  Go Premium
+                </motion.span>
+                <Zap className="w-4 h-4 ml-2" />
+              </Button>
+            </motion.div>
+
+            {/* Profile Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  className="cursor-pointer"
                 >
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-white/80 hover:text-white hover:bg-white/10"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    Profile
-                  </Button>
+                  <Avatar className="w-12 h-12 border-2 border-white/20 hover:border-white/40 transition-colors">
+                    <AvatarImage src="/placeholder.svg" alt={user?.username} />
+                    <AvatarFallback className="bg-purple-600 text-white font-bold">
+                      {user?.username?.[0]?.toUpperCase() || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
                 </motion.div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/10 backdrop-blur-md border-white/20 z-50">
+              <DropdownMenuContent className="bg-white/10 backdrop-blur-md border-white/20 z-50 w-48">
                 <DropdownMenuItem 
                   className="text-white/80 hover:text-white hover:bg-white/10 cursor-pointer"
-                  onClick={() => toast({ title: "Settings", description: "Settings feature coming soon!" })}
+                  onClick={() => navigate('/profile')}
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="text-white/80 hover:text-white hover:bg-white/10 cursor-pointer"
+                  onClick={() => toast({ title: "Explore", description: "Explore features coming soon!" })}
+                >
+                  <Zap className="w-4 h-4 mr-2" />
+                  Explore
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="text-white/80 hover:text-white hover:bg-white/10 cursor-pointer"
+                  onClick={() => toast({ title: "Premium", description: "Premium features coming soon!" })}
+                >
+                  <Crown className="w-4 h-4 mr-2" />
+                  Premium
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="text-white/80 hover:text-white hover:bg-white/10 cursor-pointer"
+                  onClick={() => navigate('/settings')}
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   Settings
@@ -184,13 +257,13 @@ const Dashboard = () => {
           </div>
         </motion.header>
 
-        {/* Stats Cards - Only Connected Accounts and Scheduled Posts */}
+        {/* Stats Cards */}
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
           variants={itemVariants}
         >
           {[
-            { label: 'Connected Accounts', value: '8', color: 'text-blue-400' },
+            { label: 'Connected Accounts', value: '6', color: 'text-blue-400' },
             { label: 'Scheduled Posts', value: '12', color: 'text-green-400' }
           ].map((stat, index) => (
             <motion.div
@@ -214,7 +287,7 @@ const Dashboard = () => {
               return (
                 <motion.div
                   key={platform.name}
-                  className={`bg-gradient-to-br ${platform.color} ${platform.hoverColor} rounded-2xl p-8 cursor-pointer shadow-2xl group relative overflow-hidden`}
+                  className={`bg-gradient-to-br ${platform.color} ${platform.hoverColor} rounded-2xl p-8 cursor-pointer shadow-2xl group relative overflow-hidden ${!platform.available ? 'opacity-75' : ''}`}
                   whileHover={{ 
                     y: -10, 
                     scale: 1.05,
@@ -222,7 +295,7 @@ const Dashboard = () => {
                   }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  onClick={() => navigate(platform.route)}
+                  onClick={() => handlePlatformClick(platform)}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   style={{ transitionDelay: `${index * 0.1}s` }}
@@ -239,8 +312,8 @@ const Dashboard = () => {
                     
                     {/* Status Indicator */}
                     <div className="flex items-center mt-4">
-                      <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                      <span className="text-white/70 text-xs">Connected</span>
+                      <div className={`w-2 h-2 ${platform.available ? 'bg-green-400' : 'bg-yellow-400'} rounded-full mr-2 animate-pulse`}></div>
+                      <span className="text-white/70 text-xs">{platform.available ? 'Available' : 'Coming Soon'}</span>
                     </div>
                   </div>
 

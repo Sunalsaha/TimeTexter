@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Users, TrendingUp, MessageSquare, Heart, Share, Eye } from 'lucide-react';
 
@@ -40,6 +39,24 @@ export const PlatformInterface = ({ platform, config }: PlatformInterfaceProps) 
         { content: 'Customer support improvements', likes: 76, shares: 8, comments: 22 }
       ]
     },
+    telegram: {
+      followers: '3.4K',
+      engagement: '15.2%',
+      recentPosts: [
+        { content: 'Channel update: New features coming soon!', likes: 234, shares: 45, comments: 12 },
+        { content: 'Community discussion highlights', likes: 189, shares: 23, comments: 34 },
+        { content: 'Weekly tech news roundup', likes: 156, shares: 67, comments: 18 }
+      ]
+    },
+    phone: {
+      followers: '1.8K',
+      engagement: '18.7%',
+      recentPosts: [
+        { content: 'SMS campaign: Holiday promotions', likes: 134, shares: 12, comments: 8 },
+        { content: 'Reminder: Appointment confirmations', likes: 89, shares: 5, comments: 15 },
+        { content: 'Customer support updates', likes: 67, shares: 23, comments: 12 }
+      ]
+    },
     email: {
       followers: '5.4K',
       engagement: '24.3%',
@@ -51,7 +68,7 @@ export const PlatformInterface = ({ platform, config }: PlatformInterfaceProps) 
     }
   };
 
-  const data = mockData[platform as keyof typeof mockData];
+  const data = mockData[platform as keyof typeof mockData] || mockData.email;
 
   const containerVariants = {
     hidden: { opacity: 0 },
