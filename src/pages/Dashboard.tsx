@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
+import logo from '../../public/timetexterlogo.png'
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -155,13 +156,13 @@ const Dashboard = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center"
+              className=""
             >
-              <Crown className="w-6 h-6 text-white" />
+              <img src={logo} alt="TimeTexter Logo" className="w-10 h-10" />
             </motion.div>
             <div>
               <h1 className="text-2xl md:text-4xl font-bold text-white mb-1">
-                Scheduler
+                TimeTexter 
               </h1>
               <p className="text-white/70 text-sm md:text-lg">Welcome back, {user?.username || 'User'}!</p>
             </div>
