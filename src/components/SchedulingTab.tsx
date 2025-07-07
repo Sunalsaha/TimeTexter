@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Plus, Send, Image, Hash } from 'lucide-react';
+import { Calendar, Clock, Plus, Send, Image, Hash, Bot, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -22,8 +22,8 @@ export const SchedulingTab = ({ platform, config }: SchedulingTabProps) => {
   const [scheduleDate, setScheduleDate] = useState('');
   const [scheduleTime, setScheduleTime] = useState('');
   const [isScheduling, setIsScheduling] = useState(false);
-
-  const scheduledPosts = [
+  const [isAiHelping, setIsAiHelping] = useState(false);
+  const [scheduledPosts, setScheduledPosts] = useState([
     {
       id: 1,
       content: 'Excited to share our latest product update! 🚀',
@@ -42,7 +42,7 @@ export const SchedulingTab = ({ platform, config }: SchedulingTabProps) => {
       scheduledFor: '2024-01-17 16:45',
       status: 'sent'
     }
-  ];
+  ]);
 
   const handleSchedulePost = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +73,42 @@ export const SchedulingTab = ({ platform, config }: SchedulingTabProps) => {
     setIsScheduling(false);
   };
 
+  const handleAiHelp = async () => {
+    setIsAiHelping(true);
+    
+    // Simulate AI assistance
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const aiSuggestions = [
+      "🚀 Exciting news! We're launching something amazing today. Stay tuned for more updates!",
+      "✨ Behind the scenes: Our team working hard to bring you the best experience possible.",
+      "🎉 Thank you to our amazing community for your continued support and feedback!",
+      "💡 Pro tip: Consistency is key when building your online presence. Keep posting regularly!",
+      "🔥 Just dropped our latest feature update. Check it out and let us know what you think!"
+    ];
+    
+    const randomSuggestion = aiSuggestions[Math.floor(Math.random() * aiSuggestions.length)];
+    setPostContent(randomSuggestion);
+    setIsAiHelping(false);
+    
+    toast({
+      title: "AI Helper",
+      description: "I've generated a post suggestion for you!",
+    });
+  };
+
+  const handleDeletePost = (postId: number) => {
+    const postToDelete = scheduledPosts.find(post => post.id === postId);
+    
+    if (window.confirm(`Are you sure you want to delete this post from history?\n\n"${postToDelete?.content}"`)) {
+      setScheduledPosts(prev => prev.filter(post => post.id !== postId));
+      toast({
+        title: "Post deleted",
+        description: "The post has been removed from your history.",
+      });
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -101,7 +137,28 @@ export const SchedulingTab = ({ platform, config }: SchedulingTabProps) => {
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
           <form onSubmit={handleSchedulePost} className="space-y-6">
             <div>
-              <Label htmlFor="content" className="text-white/90 mb-2 block">Post Content</Label>
+              <div className="flex items-center justify-between mb-2">
+                <Label htmlFor="content" className="text-white/90">Post Content</Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAiHelp}
+                  disabled={isAiHelping}
+                  className="border-white/30 text-white/80 hover:bg-white/10 hover:border-white/50"
+                >
+                  {isAiHelping ? (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full mr-2"
+                    />
+                  ) : (
+                    <Bot className="w-4 h-4 mr-2" />
+                  )}
+                  {isAiHelping ? 'Generating...' : 'AI Helper'}
+                </Button>
+              </div>
               <Textarea
                 id="content"
                 placeholder={`What would you like to share on ${config.name}?`}
@@ -202,12 +259,22 @@ export const SchedulingTab = ({ platform, config }: SchedulingTabProps) => {
             >
               <div className="flex justify-between items-start mb-4">
                 <p className="text-white flex-1 mr-4">{post.content}</p>
-                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  post.status === 'pending' 
-                    ? 'bg-yellow-500/20 text-yellow-300' 
-                    : 'bg-green-500/20 text-green-300'
-                }`}>
-                  {post.status}
+                <div className="flex items-center gap-2">
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    post.status === 'pending' 
+                      ? 'bg-yellow-500/20 text-yellow-300' 
+                      : 'bg-green-500/20 text-green-300'
+                  }`}>
+                    {post.status}
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => handleDeletePost(post.id)}
+                    className="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-1"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
               

@@ -1,7 +1,8 @@
 
 import { motion } from 'framer-motion';
-import { Facebook, Twitter, Mail, MessageCircle, Settings, LogOut, User } from 'lucide-react';
+import { Facebook, Mail, MessageCircle, Settings, LogOut, User, Instagram, Linkedin, Youtube, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
@@ -28,10 +29,14 @@ const Dashboard = () => {
       route: '/platform/facebook'
     },
     {
-      name: 'Twitter',
-      icon: Twitter,
-      color: 'from-sky-500 to-sky-600',
-      hoverColor: 'hover:from-sky-600 hover:to-sky-700',
+      name: 'X',
+      icon: () => (
+        <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      ),
+      color: 'from-gray-800 to-black',
+      hoverColor: 'hover:from-gray-900 hover:to-gray-800',
       route: '/platform/twitter'
     },
     {
@@ -42,6 +47,34 @@ const Dashboard = () => {
       route: '/platform/whatsapp'
     },
     {
+      name: 'Instagram',
+      icon: Instagram,
+      color: 'from-pink-500 to-purple-600',
+      hoverColor: 'hover:from-pink-600 hover:to-purple-700',
+      route: '/platform/instagram'
+    },
+    {
+      name: 'LinkedIn',
+      icon: Linkedin,
+      color: 'from-blue-500 to-blue-600',
+      hoverColor: 'hover:from-blue-600 hover:to-blue-700',
+      route: '/platform/linkedin'
+    },
+    {
+      name: 'YouTube',
+      icon: Youtube,
+      color: 'from-red-600 to-red-700',
+      hoverColor: 'hover:from-red-700 hover:to-red-800',
+      route: '/platform/youtube'
+    },
+    {
+      name: 'Messenger',
+      icon: MessageSquare,
+      color: 'from-blue-500 to-purple-600',
+      hoverColor: 'hover:from-blue-600 hover:to-purple-700',
+      route: '/platform/messenger'
+    },
+    {
       name: 'Email',
       icon: Mail,
       color: 'from-purple-600 to-purple-700',
@@ -49,6 +82,30 @@ const Dashboard = () => {
       route: '/platform/email'
     }
   ];
+
+  const handleQuickAction = (actionType: string) => {
+    switch (actionType) {
+      case 'schedule':
+        navigate('/platform/facebook');
+        toast({
+          title: "Schedule Post",
+          description: "Redirecting to Facebook platform to schedule a post.",
+        });
+        break;
+      case 'analytics':
+        toast({
+          title: "Analytics",
+          description: "Analytics feature coming soon!",
+        });
+        break;
+      case 'team':
+        toast({
+          title: "Team Management",
+          description: "Team management feature coming soon!",
+        });
+        break;
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -92,47 +149,50 @@ const Dashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-white/80 hover:text-white hover:bg-white/10"
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-            </motion.div>
-            
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleLogout}
-                className="text-white/80 hover:text-white hover:bg-white/10"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </motion.div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-white/80 hover:text-white hover:bg-white/10"
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                  </Button>
+                </motion.div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white/10 backdrop-blur-md border-white/20 z-50">
+                <DropdownMenuItem 
+                  className="text-white/80 hover:text-white hover:bg-white/10 cursor-pointer"
+                  onClick={() => toast({ title: "Settings", description: "Settings feature coming soon!" })}
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="text-white/80 hover:text-white hover:bg-white/10 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </motion.header>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Only Connected Accounts and Scheduled Posts */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
           variants={itemVariants}
         >
           {[
-            { label: 'Connected Accounts', value: '4', color: 'text-blue-400' },
-            { label: 'Scheduled Posts', value: '12', color: 'text-green-400' },
-            { label: 'Total Reach', value: '8.5K', color: 'text-purple-400' },
-            { label: 'Engagement Rate', value: '4.2%', color: 'text-pink-400' }
+            { label: 'Connected Accounts', value: '8', color: 'text-blue-400' },
+            { label: 'Scheduled Posts', value: '12', color: 'text-green-400' }
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -170,7 +230,13 @@ const Dashboard = () => {
                 <div className="absolute -inset-1 bg-gradient-to-r from-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
                 <div className="relative z-10">
-                  <platform.icon className="w-12 h-12 text-white mb-4 group-hover:scale-110 transition-transform duration-300" />
+                  {typeof platform.icon === 'function' ? (
+                    <div className="mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <platform.icon />
+                    </div>
+                  ) : (
+                    <platform.icon className="w-12 h-12 text-white mb-4 group-hover:scale-110 transition-transform duration-300" />
+                  )}
                   <h3 className="text-xl font-bold text-white mb-2">{platform.name}</h3>
                   <p className="text-white/80 text-sm">Manage your {platform.name.toLowerCase()} presence</p>
                   
@@ -196,15 +262,16 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold text-white mb-8">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { title: 'Schedule Post', description: 'Plan your content across platforms', action: 'Create' },
-              { title: 'Analytics', description: 'View your performance metrics', action: 'View' },
-              { title: 'Team Management', description: 'Manage your team access', action: 'Manage' }
+              { title: 'Schedule Post', description: 'Plan your content across platforms', action: 'schedule' },
+              { title: 'Analytics', description: 'View your performance metrics', action: 'analytics' },
+              { title: 'Team Management', description: 'Manage your team access', action: 'team' }
             ].map((action, index) => (
               <motion.div
                 key={index}
                 className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer"
                 whileHover={{ y: -5 }}
                 transition={{ type: "spring", stiffness: 300 }}
+                onClick={() => handleQuickAction(action.action)}
               >
                 <h3 className="text-lg font-semibold text-white mb-2">{action.title}</h3>
                 <p className="text-white/70 text-sm mb-4">{action.description}</p>
@@ -213,7 +280,7 @@ const Dashboard = () => {
                   variant="ghost"
                   className="text-purple-300 hover:text-white hover:bg-purple-600/20"
                 >
-                  {action.action}
+                  {action.title === 'Schedule Post' ? 'Create' : action.title === 'Analytics' ? 'View' : 'Manage'}
                 </Button>
               </motion.div>
             ))}
