@@ -44,9 +44,9 @@ export const PlatformInterface = ({ platform, config }: PlatformInterfaceProps) 
       ]
     },
     telegram: {
-      followers: '3.4K',
-      engagement: '15.2%',
-      reach: '12.1K',
+      followers: '--',
+      engagement: '--',
+      reach: '--',
       recentPosts: [
         { content: 'Channel update: New features coming soon!', likes: 234, shares: 45, comments: 12 },
         { content: 'Community discussion highlights', likes: 189, shares: 23, comments: 34 },
@@ -54,9 +54,9 @@ export const PlatformInterface = ({ platform, config }: PlatformInterfaceProps) 
       ]
     },
     phone: {
-      followers: '1.8K',
-      engagement: '18.7%',
-      reach: '5.4K',
+      followers: '--',
+      engagement: '--',
+      reach: '--',
       recentPosts: [
         { content: 'SMS campaign: Holiday promotions', likes: 134, shares: 12, comments: 8 },
         { content: 'Reminder: Appointment confirmations', likes: 89, shares: 5, comments: 15 },
@@ -64,9 +64,9 @@ export const PlatformInterface = ({ platform, config }: PlatformInterfaceProps) 
       ]
     },
     email: {
-      followers: '5.4K',
-      engagement: '24.3%',
-      reach: '18.7K',
+      followers: '--',
+      engagement: '--',
+      reach: '--',
       recentPosts: [
         { content: 'Monthly newsletter - March edition', likes: 234, shares: 45, comments: 12 },
         { content: 'Product launch announcement', likes: 345, shares: 67, comments: 23 },

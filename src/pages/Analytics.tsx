@@ -1,6 +1,15 @@
-
 import { motion } from 'framer-motion';
-import { ArrowLeft, TrendingUp, Users, Eye, Heart, MessageSquare, Share, Calendar, BarChart3 } from 'lucide-react';
+import {
+  ArrowLeft,
+  TrendingUp,
+  Users,
+  Eye,
+  Heart,
+  MessageSquare,
+  Share,
+  Calendar,
+  BarChart3,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,40 +22,40 @@ const Analytics = () => {
       opacity: 1,
       transition: {
         duration: 0.6,
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
+    visible: { opacity: 1, y: 0 },
   };
 
   const platformData = [
     { name: 'Facebook', followers: '12.5K', engagement: '8.4%', reach: '45.2K', color: 'text-blue-400' },
     { name: 'WhatsApp', followers: '2.1K', engagement: '12.8%', reach: '8.9K', color: 'text-green-400' },
-    { name: 'Telegram', followers: '3.4K', engagement: '15.2%', reach: '12.1K', color: 'text-blue-300' },
-    { name: 'Phone Message', followers: '1.8K', engagement: '18.7%', reach: '5.4K', color: 'text-green-300' },
-    { name: 'Email', followers: '5.4K', engagement: '24.3%', reach: '18.7K', color: 'text-purple-400' }
+    { name: 'Linkedin', followers: '3.4K', engagement: '15.2%', reach: '12.1K', color: 'text-blue-300' },
+    { name: 'X', followers: '1.8K', engagement: '18.7%', reach: '5.4K', color: 'text-gray-500' },
+    { name: 'Instagram', followers: '5.4K', engagement: '24.3%', reach: '18.7K', color: 'text-violet-400' },
+    { name: 'Telegram', followers: '--', engagement: '--', reach: '--', color: 'text-blue-400' },
+    { name: 'Phone Message', followers: '--', engagement: '--', reach: '--', color: 'text-green-500' },
+    { name: 'Email', followers: '--', engagement: '--', reach: '--', color: 'text-purple-400' },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-gray-800 dark:to-black relative overflow-hidden">
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10" />
       </div>
-      
+
       <motion.div
         className="container mx-auto px-4 py-8 relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div 
-          className="flex items-center mb-8"
-          variants={itemVariants}
-        >
+        <motion.div className="flex items-center mb-8" variants={itemVariants}>
           <Button
             variant="ghost"
             onClick={() => navigate('/dashboard')}
@@ -59,26 +68,23 @@ const Analytics = () => {
         </motion.div>
 
         {/* Overall Stats */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
-          variants={itemVariants}
-        >
+        <motion.div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" variants={itemVariants}>
           {[
             { label: 'Total Followers', value: '25.2K', icon: Users, color: 'text-blue-400' },
             { label: 'Total Engagement', value: '15.9%', icon: Heart, color: 'text-pink-400' },
             { label: 'Total Reach', value: '90.3K', icon: Eye, color: 'text-purple-400' },
-            { label: 'Posts This Month', value: '47', icon: Calendar, color: 'text-green-400' }
+            { label: 'Posts This Month', value: '47', icon: Calendar, color: 'text-green-400' },
           ].map((stat, index) => {
-            const IconComponent = stat.icon;
+            const Icon = stat.icon;
             return (
               <motion.div
                 key={index}
                 className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"
                 whileHover={{ y: -5, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300 }}
+                transition={{ type: 'spring', stiffness: 300 }}
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <IconComponent className={`w-8 h-8 ${stat.color}`} />
+                  <Icon className={`w-8 h-8 ${stat.color}`} />
                   <span className="text-white/70 text-sm">{stat.label}</span>
                 </div>
                 <p className={`text-3xl font-bold ${stat.color}`}>{stat.value}</p>

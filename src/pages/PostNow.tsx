@@ -83,11 +83,11 @@ const PostNow = () => {
             </div>
 
             <div className="flex flex-wrap gap-4 items-center">
-              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10">
+              <Button variant="ghost" className="bg-transparent text-white border border-white/30 hover:bg-white/10 hover:border-white/50">
                 <Image className="w-4 h-4 mr-2" />
                 Add Media
               </Button>
-              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10">
+              <Button variant="ghost" className="bg-transparent text-white border border-white/30 hover:bg-white/10 hover:border-white/50">
                 <Hash className="w-4 h-4 mr-2" />
                 Add Hashtags
               </Button>
@@ -95,8 +95,8 @@ const PostNow = () => {
 
             <div className="flex justify-end gap-4">
               <Button 
-                variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10"
+                variant="ghost" 
+                className="bg-white/30 text-white border border-white/30 hover:bg-white/10 hover:border-white/50"
                 onClick={() => navigate('/dashboard')}
               >
                 Cancel

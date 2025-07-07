@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Calendar, Send, Settings, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Calendar, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,30 +16,26 @@ const Platform = () => {
   const [activeTab, setActiveTab] = useState('interface');
 
   useEffect(() => {
-    // Check if platform is already connected (simulate OAuth check)
     const connectedPlatforms = JSON.parse(localStorage.getItem('connectedPlatforms') || '[]');
     setIsConnected(connectedPlatforms.includes(platform));
   }, [platform]);
 
   const handleOAuthConnect = async () => {
     setIsConnecting(true);
-    
-    // Simulate OAuth flow
+
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Store connection
+
     const connectedPlatforms = JSON.parse(localStorage.getItem('connectedPlatforms') || '[]');
     if (!connectedPlatforms.includes(platform)) {
       connectedPlatforms.push(platform);
       localStorage.setItem('connectedPlatforms', JSON.stringify(connectedPlatforms));
     }
-    
-    // Store mock access token
+
     localStorage.setItem(`${platform}_token`, `mock_token_${Date.now()}`);
-    
+
     setIsConnected(true);
     setIsConnecting(false);
-    
+
     toast({
       title: "Connected successfully!",
       description: `Your ${platform} account has been connected.`,
@@ -48,53 +43,21 @@ const Platform = () => {
   };
 
   const platformConfig = {
-    facebook: {
-      name: 'Facebook',
-      color: 'from-blue-600 to-blue-700',
-      bgColor: 'bg-blue-600/20'
-    },
-    twitter: {
-      name: 'X (Twitter)',
-      color: 'from-gray-800 to-black',
-      bgColor: 'bg-gray-800/20'
-    },
-    whatsapp: {
-      name: 'WhatsApp',
-      color: 'from-green-600 to-green-700',
-      bgColor: 'bg-green-600/20'
-    },
-    instagram: {
-      name: 'Instagram',
-      color: 'from-pink-500 to-purple-600',
-      bgColor: 'bg-pink-500/20'
-    },
-    linkedin: {
-      name: 'LinkedIn',
-      color: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-500/20'
-    },
-    telegram: {
-      name: 'Telegram',
-      color: 'from-blue-400 to-blue-500',
-      bgColor: 'bg-blue-400/20'
-    },
-    phone: {
-      name: 'Phone Message',
-      color: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-500/20'
-    },
-    email: {
-      name: 'Email',
-      color: 'from-purple-600 to-purple-700',
-      bgColor: 'bg-purple-600/20'
-    }
+    facebook: { name: 'Facebook', color: 'from-blue-600 to-blue-700', bgColor: 'bg-blue-600/20' },
+    twitter: { name: 'X (Twitter)', color: 'from-gray-800 to-black', bgColor: 'bg-gray-800/20' },
+    whatsapp: { name: 'WhatsApp', color: 'from-green-600 to-green-700', bgColor: 'bg-green-600/20' },
+    instagram: { name: 'Instagram', color: 'from-pink-500 to-purple-600', bgColor: 'bg-pink-500/20' },
+    linkedin: { name: 'LinkedIn', color: 'from-blue-500 to-blue-600', bgColor: 'bg-blue-500/20' },
+    telegram: { name: 'Telegram', color: 'from-blue-400 to-blue-500', bgColor: 'bg-blue-400/20' },
+    phone: { name: 'Phone Message', color: 'from-green-500 to-green-600', bgColor: 'bg-green-500/20' },
+    email: { name: 'Email', color: 'from-purple-600 to-purple-700', bgColor: 'bg-purple-600/20' }
   };
 
   const config = platformConfig[platform as keyof typeof platformConfig];
 
   if (!config) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-gray-800 dark:to-black relative overflow-hidden flex items-center justify-center">
         <div className="text-center text-white">
           <h1 className="text-2xl font-bold mb-4">Platform not found</h1>
           <Button onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
@@ -105,11 +68,11 @@ const Platform = () => {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-gray-800 dark:to-black relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 py-8 relative z-10">
           <Button
             variant="ghost"
@@ -130,16 +93,13 @@ const Platform = () => {
               <div className={`w-20 h-20 ${config.bgColor} rounded-full flex items-center justify-center mx-auto mb-6`}>
                 <span className="text-3xl font-bold text-white">{config.name[0]}</span>
               </div>
-              
+
               <h1 className="text-3xl font-bold text-white mb-4">Connect {config.name}</h1>
               <p className="text-white/70 mb-8">
                 Connect your {config.name} account to start managing your content and scheduling posts.
               </p>
-              
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   onClick={handleOAuthConnect}
                   disabled={isConnecting}
@@ -163,11 +123,11 @@ const Platform = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-gray-800 dark:to-black relative overflow-hidden">
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10"></div>
       </div>
-      
+
       <motion.div
         className="container mx-auto px-4 py-8 relative z-10"
         initial={{ opacity: 0 }}
@@ -185,13 +145,13 @@ const Platform = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Button>
-            
+
             <div>
               <h1 className="text-3xl font-bold text-white">{config.name}</h1>
               <p className="text-white/70">Manage your {config.name.toLowerCase()} presence</p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             <span className="text-white/70 text-sm">Connected</span>
@@ -201,15 +161,15 @@ const Platform = () => {
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="bg-white/10 border-white/20 mb-8">
-            <TabsTrigger 
-              value="interface" 
+            <TabsTrigger
+              value="interface"
               className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70"
             >
               <BarChart3 className="w-4 h-4 mr-2" />
               Interface
             </TabsTrigger>
-            <TabsTrigger 
-              value="scheduling" 
+            <TabsTrigger
+              value="scheduling"
               className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70"
             >
               <Calendar className="w-4 h-4 mr-2" />

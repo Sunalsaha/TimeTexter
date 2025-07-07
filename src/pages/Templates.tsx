@@ -129,8 +129,8 @@ const Templates = () => {
               <div className="flex gap-2">
                 <Button 
                   size="sm" 
-                  variant="outline" 
-                  className="flex-1 border-white/30 text-white hover:bg-white/10"
+                  variant="ghost" 
+                  className="bg-transparent text-white border border-white/30 hover:bg-white/10 hover:border-white/50"
                 >
                   <Copy className="w-3 h-3 mr-1" />
                   Copy

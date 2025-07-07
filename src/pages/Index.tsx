@@ -104,7 +104,7 @@ const Index = () => {
             >
               <Sparkles className="w-5 h-5 text-yellow-300" />
             </motion.div>
-            <span className="text-white/90 font-medium">Welcome to Scheduler</span>
+            <span className="text-white/90 font-medium">Welcome to TimeTexter</span>
           </motion.div>
 
           <motion.h1 
@@ -136,6 +136,7 @@ const Index = () => {
             {[
               { number: '10K+', label: 'Active Users' },
               { number: '50M+', label: 'Posts Scheduled' },
+              { number: '3+', label: 'Apps Connected' },
               { number: '99.9%', label: 'Uptime' }
             ].map((stat, index) => (
               <motion.div 
@@ -368,17 +369,21 @@ const Index = () => {
         </motion.div>
         
       </Button>
+<Button
+  className="relative inline-flex items-center justify-center px-6 py-3 font-semibold text-white rounded-xl 
+  overflow-hidden z-10 bg-blue-900 shadow-lg group border border-transparent"
+>
+  {/* Animated moving border using before pseudo-element */}
+  <span className="absolute inset-[-2px] rounded-[inherit] bg-[conic-gradient(from_0deg,_#a855f7,_#9333ea,_#6b21a8,_#a855f7)] 
+    animate-spin-slow blur-sm opacity-50 group-hover:opacity-90 z-[-1]"
+  ></span>
 
-      <Button
-        variant="outline"
-        className="relative px-6 py-3 rounded-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 
-  hover:scale-105 transition-all duration-300 border 
-   before:animate-gradient-x before:z-[-1] before:blur-md before:opacity-50 hover:before:opacity-80 hover:text-white/80" 
+  {/* Button Text */}
+  <span className="relative z-10">✨ See How it Works</span>
+</Button>
 
-        onClick={() => navigate('/how-it-works')}
-      >
-        See How It Works
-      </Button>
+
+
     </motion.div>
 
     {/* Animated icon ring */}
@@ -490,16 +495,19 @@ const Index = () => {
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
-                variant="outline"
-                size="lg"
-               className="relative px-6 py-3 rounded-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 
-  hover:scale-105 transition-all duration-300 border 
-   before:animate-gradient-x before:z-[-1] before:blur-md before:opacity-50 hover:before:opacity-80 hover:text-white/80" 
+              
+  className="relative inline-flex items-center justify-center px-6 py-3 font-semibold text-white rounded-xl 
+  overflow-hidden z-10 bg-blue-900 shadow-lg group border border-transparent"
+  onClick={() => navigate('/dashboard')}
+>
+  {/* Animated moving border using before pseudo-element */}
+  <span className="absolute inset-[-2px] rounded-[inherit] bg-[conic-gradient(from_0deg,_#a855f7)] 
+    animate-spin-slow blur-sm opacity-50 group-hover:opacity-90 z-[-1]"
+  ></span>
 
-                onClick={() => navigate('/dashboard')}
-              >
-                Explore Demo
-              </Button>
+  {/* Button Text */}
+  <span className="relative z-10">Explore Demo</span>
+</Button>
             </motion.div>
           </motion.div>
 
