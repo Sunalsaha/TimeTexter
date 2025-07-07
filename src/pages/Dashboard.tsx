@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Facebook, Mail, MessageCircle, Settings, LogOut, User, Instagram, Linkedin, Youtube, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -210,47 +209,46 @@ const Dashboard = () => {
         <motion.div variants={itemVariants}>
           <h2 className="text-2xl font-bold text-white mb-8">Your Platforms</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {socialPlatforms.map((platform, index) => (
-              <motion.div
-                key={platform.name}
-                className={`bg-gradient-to-br ${platform.color} ${platform.hoverColor} rounded-2xl p-8 cursor-pointer shadow-2xl group relative overflow-hidden`}
-                whileHover={{ 
-                  y: -10, 
-                  scale: 1.05,
-                  rotateY: 5 
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                onClick={() => navigate(platform.route)}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                {/* Background Glow */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                <div className="relative z-10">
-                  {typeof platform.icon === 'function' ? (
-                    <div className="mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <platform.icon />
-                    </div>
-                  ) : (
-                    <platform.icon className="w-12 h-12 text-white mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  )}
-                  <h3 className="text-xl font-bold text-white mb-2">{platform.name}</h3>
-                  <p className="text-white/80 text-sm">Manage your {platform.name.toLowerCase()} presence</p>
+            {socialPlatforms.map((platform, index) => {
+              const IconComponent = platform.icon;
+              return (
+                <motion.div
+                  key={platform.name}
+                  className={`bg-gradient-to-br ${platform.color} ${platform.hoverColor} rounded-2xl p-8 cursor-pointer shadow-2xl group relative overflow-hidden`}
+                  whileHover={{ 
+                    y: -10, 
+                    scale: 1.05,
+                    rotateY: 5 
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  onClick={() => navigate(platform.route)}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{ transitionDelay: `${index * 0.1}s` }}
+                >
+                  {/* Background Glow */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   
-                  {/* Status Indicator */}
-                  <div className="flex items-center mt-4">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                    <span className="text-white/70 text-xs">Connected</span>
+                  <div className="relative z-10">
+                    <div className="mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">{platform.name}</h3>
+                    <p className="text-white/80 text-sm">Manage your {platform.name.toLowerCase()} presence</p>
+                    
+                    {/* Status Indicator */}
+                    <div className="flex items-center mt-4">
+                      <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                      <span className="text-white/70 text-xs">Connected</span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Hover Effect Overlay */}
-                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              </motion.div>
-            ))}
+                  {/* Hover Effect Overlay */}
+                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 
