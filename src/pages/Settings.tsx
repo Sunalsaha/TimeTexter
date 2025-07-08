@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useTheme } from '@/contexts/ThemeContext';
+import { Link } from 'react-router-dom';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -161,9 +162,11 @@ const Settings = () => {
                 <p className="text-white font-medium">Delete Account</p>
                 <p className="text-white/60 text-sm">Permanently delete your account and all data</p>
               </div>
-              <Button variant="destructive" size="sm">
-                Delete Account
-              </Button>
+              <Link to="/lo">
+  <Button variant="destructive" size="sm">
+    Delete Account
+  </Button>
+</Link>
             </div>
           </div>
         </motion.div>
