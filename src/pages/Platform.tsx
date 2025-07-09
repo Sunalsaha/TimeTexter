@@ -5,15 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
-import { PlatformInterface } from '@/components/PlatformInterface';
-import { SchedulingTab } from '@/components/SchedulingTab';
+import { EmailSchedulingTab } from '@/components/EmailSchedulingTab';
 
 const Platform = () => {
   const { platform } = useParams<{ platform: string }>();
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-  const [activeTab, setActiveTab] = useState('interface');
+  const [activeTab, setActiveTab] = useState('scheduling');
 
   useEffect(() => {
     const connectedPlatforms = JSON.parse(localStorage.getItem('connectedPlatforms') || '[]');
@@ -96,7 +95,7 @@ const Platform = () => {
 
               <h1 className="text-3xl font-bold text-white mb-4">Connect {config.name}</h1>
               <p className="text-white/70 mb-8">
-                Connect your {config.name} account to start managing your content and scheduling posts.
+                Connect your {config.name} account to start managing your content and scheduling emails.
               </p>
 
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -158,51 +157,14 @@ const Platform = () => {
           </div>
         </div>
 
-        {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="bg-white/10 border-white/20 mb-8">
-            <TabsTrigger
-              value="interface"
-              className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70"
-            >
-              <BarChart3 className="w-4 h-4 mr-2" />
-              Interface
-            </TabsTrigger>
-            <TabsTrigger
-              value="scheduling"
-              className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70"
-            >
-              <Calendar className="w-4 h-4 mr-2" />
-              Scheduling
-            </TabsTrigger>
-          </TabsList>
-
-          <AnimatePresence mode="wait">
-            <TabsContent value="interface" className="mt-0">
-              <motion.div
-                key="interface"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <PlatformInterface platform={platform!} config={config} />
-              </motion.div>
-            </TabsContent>
-
-            <TabsContent value="scheduling" className="mt-0">
-              <motion.div
-                key="scheduling"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <SchedulingTab platform={platform!} config={config} />
-              </motion.div>
-            </TabsContent>
-          </AnimatePresence>
-        </Tabs>
+        {/* Email Scheduling Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <EmailSchedulingTab platform={platform!} config={config} />
+        </motion.div>
       </motion.div>
     </div>
   );
